@@ -11,7 +11,7 @@ Aprender sobre las herramientas de GitHub y la gestión simultánea de repositor
 ### Integrantes del grupo:
 * EVER LLEHUAC ESPINOZA - Everllehuac
 * YOJAN MARLON LEZMA COTRINA - Mxrlon-ciber
-* ALITON GABRIEL BAUTISTA CABELLO - GABO - BAU
+* ALITON GABRIEL BAUTISTA CABELLO - gabrielxd1543-tech
 * SALCEDO VILLAR DENNIS - JOEL - djoelsalcedov-creator
 ---
 
