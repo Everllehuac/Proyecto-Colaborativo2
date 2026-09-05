@@ -6,7 +6,6 @@
     <title>Farmacia Salud</title>
     <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
     <header>
@@ -14,7 +13,7 @@
         <p>Tu salud es nuestra prioridad</p>
     </header>
 
-    <nav>
+    <nav aria-label="Navegación principal">
         <a href="#inicio">Inicio</a>
         <a href="#productos">Productos</a>
         <a href="#registro">Registrar Paciente</a>
@@ -24,163 +23,187 @@
 
     <main>
 
-        <!-- INICIO -->
         <section id="inicio">
             <h2>Bienvenido</h2>
-            <p>Encuentra productos para el cuidado de tu salud.</p>
-
-            <button onclick="mostrarMensaje()">
+            <p>Encuentra productos para el cuidado de tu salud y gestiona tus citas médicas en un solo lugar.</p>
+            <button type="button" class="btn-primary" onclick="mostrarMensaje()">
                 Más información
             </button>
         </section>
 
-        <!-- PRODUCTOS -->
         <section id="productos">
-            <h2>Productos</h2>
+            <h2>Nuestros Productos</h2>
 
             <div class="productos">
 
-                <div class="producto">
-                    <h3>Paracetamol</h3>
-                    <p>Alivio del dolor y fiebre.</p>
-                    <p><strong>S/ 5.00</strong></p>
-                    <button onclick="comprar('Paracetamol')">
-                        Comprar
-                    </button>
-                </div>
+                <article class="producto">
+                    <div class="producto-detalle">
+                        <h3>Paracetamol</h3>
+                        <p>Alivio eficaz contra el dolor leve a moderado y control de fiebre.</p>
+                    </div>
+                    <div class="producto-accion">
+                        <strong class="precio">S/ 5.00</strong>
+                        <button type="button" class="btn-comprar" onclick="comprar('Paracetamol')">
+                            Comprar
+                        </button>
+                    </div>
+                </article>
 
-                <div class="producto">
-                    <h3>Vitamina C</h3>
-                    <p>Suplemento vitamínico.</p>
-                    <p><strong>S/ 12.00</strong></p>
-                    <button onclick="comprar('Vitamina C')">
-                        Comprar
-                    </button>
-                </div>
+                <article class="producto">
+                    <div class="producto-detalle">
+                        <h3>Vitamina C</h3>
+                        <p>Suplemento antioxidante para fortalecer el sistema inmunológico.</p>
+                    </div>
+                    <div class="producto-accion">
+                        <strong class="precio">S/ 12.00</strong>
+                        <button type="button" class="btn-comprar" onclick="comprar('Vitamina C')">
+                            Comprar
+                        </button>
+                    </div>
+                </article>
 
-                <div class="producto">
-                    <h3>Alcohol</h3>
-                    <p>Producto para limpieza y desinfección.</p>
-                    <p><strong>S/ 8.00</strong></p>
-                    <button onclick="comprar('Alcohol')">
-                        Comprar
-                    </button>
-                </div>
+                <article class="producto">
+                    <div class="producto-detalle">
+                        <h3>Alcohol 70%</h3>
+                        <p>Antiséptico de uso externo ideal para desinfección y limpieza profunda.</p>
+                    </div>
+                    <div class="producto-accion">
+                        <strong class="precio">S/ 8.00</strong>
+                        <button type="button" class="btn-comprar" onclick="comprar('Alcohol 70%')">
+                            Comprar
+                        </button>
+                    </div>
+                </article>
 
             </div>
         </section>
 
-        <!-- REGISTRO DEL PACIENTE -->
         <section id="registro">
-
             <h2>Registrar Paciente</h2>
 
-            <form id="formPaciente">
+            <form id="formPaciente" novalidate>
 
-                <label>Nombre completo:</label>
-                <input
-                    type="text"
-                    id="nombre"
-                    placeholder="Ingrese el nombre"
-                    required
-                >
+                <div class="form-group">
+                    <label for="nombre">Nombre completo</label>
+                    <input
+                        type="text"
+                        id="nombre"
+                        placeholder="Ej. Juan Pérez"
+                        required
+                    >
+                </div>
 
-                <label>DNI:</label>
-                <input
-                    type="text"
-                    id="dni"
-                    placeholder="Ingrese el DNI"
-                    required
-                >
+                <div class="form-group">
+                    <label for="dni">DNI</label>
+                    <input
+                        type="text"
+                        id="dni"
+                        maxlength="8"
+                        placeholder="8 dígitos"
+                        required
+                    >
+                </div>
 
-                <label>Teléfono:</label>
-                <input
-                    type="tel"
-                    id="telefono"
-                    placeholder="Ingrese el teléfono"
-                    required
-                >
+                <div class="form-group">
+                    <label for="telefono">Teléfono</label>
+                    <input
+                        type="tel"
+                        id="telefono"
+                        placeholder="Ej. 999 888 777"
+                        required
+                    >
+                </div>
 
-                <label>Correo electrónico:</label>
-                <input
-                    type="email"
-                    id="correo"
-                    placeholder="Ingrese el correo"
-                    required
-                >
+                <div class="form-group">
+                    <label for="correo">Correo electrónico</label>
+                    <input
+                        type="email"
+                        id="correo"
+                        placeholder="ejemplo@correo.com"
+                        required
+                    >
+                </div>
 
-                <button type="submit">
+                <button type="submit" class="btn-submit">
                     Registrar Paciente
                 </button>
 
             </form>
 
-            <p id="mensajeRegistro"></p>
-
+            <p id="mensajeRegistro" class="mensaje-alerta" role="status" aria-live="polite"></p>
         </section>
 
-        <!-- CITA -->
         <section id="citas">
+            <h2>Registrar Cita Médica</h2>
 
-            <h2>Registrar Cita</h2>
+            <form id="formCita" novalidate>
 
-            <form id="formCita">
+                <div class="form-group">
+                    <label for="paciente">Paciente</label>
+                    <select id="paciente" required>
+                        <option value="">Seleccione un paciente</option>
+                    </select>
+                </div>
 
-                <label>Paciente:</label>
-                <select id="paciente" required>
-                    <option value="">Seleccione un paciente</option>
-                </select>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="fecha">Fecha</label>
+                        <input
+                            type="date"
+                            id="fecha"
+                            required
+                        >
+                    </div>
 
-                <label>Fecha:</label>
-                <input
-                    type="date"
-                    id="fecha"
-                    required
-                >
+                    <div class="form-group">
+                        <label for="hora">Hora</label>
+                        <input
+                            type="time"
+                            id="hora"
+                            required
+                        >
+                    </div>
+                </div>
 
-                <label>Hora:</label>
-                <input
-                    type="time"
-                    id="hora"
-                    required
-                >
+                <div class="form-group">
+                    <label for="motivo">Motivo de la cita</label>
+                    <input
+                        type="text"
+                        id="motivo"
+                        placeholder="Ej. Chequeo preventivo, control general"
+                        required
+                    >
+                </div>
 
-                <label>Motivo de la cita:</label>
-                <input
-                    type="text"
-                    id="motivo"
-                    placeholder="Ejemplo: Consulta"
-                    required
-                >
-
-                <button type="submit">
-                    Registrar Cita
+                <button type="submit" class="btn-submit">
+                    Agendar Cita
                 </button>
 
             </form>
 
-            <h2>Lista de Citas</h2>
-
-            <div id="listaCitas"></div>
+            <div class="citas-registradas">
+                <h3>Citas Programadas</h3>
+                <div id="listaCitas" class="lista-citas"></div>
+            </div>
 
         </section>
 
-        <!-- CONTACTO -->
         <section id="contacto">
-            <h2>Contacto</h2>
-
-            <p>📞 Teléfono: 999 999 999</p>
-            <p>📧 Email: farmacia@gmail.com</p>
-            <p>📍 Dirección: Lima, Perú</p>
+            <h2>Contacto y Ubicación</h2>
+            <div class="contacto-info">
+                <p>📞 <strong>Teléfono:</strong> 999 999 999</p>
+                <p>📧 <strong>Email:</strong> farmacia@gmail.com</p>
+                <p>📍 <strong>Dirección:</strong> Lima, Perú</p>
+            </div>
         </section>
 
     </main>
 
     <footer>
-        <p>&copy; 2026 Farmacia Salud</p>
+        <p>&copy; 2026 Farmacia Salud. Todos los derechos reservados.</p>
     </footer>
 
     <script src="script.js"></script>
-
 </body>
 </html>
+  
