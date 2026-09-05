@@ -140,5 +140,3 @@ function eliminarCita(id) {
 // Inicializar lista vacía
 renderizarCitas();
 
-   
-
