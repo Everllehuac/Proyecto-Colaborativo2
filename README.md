@@ -10,7 +10,7 @@ Aprender sobre las herramientas de GitHub y la gestión simultánea de repositor
 
 ### Integrantes del grupo:
 * EVER LLEHUAC ESPINOZA - Everllehuac
-* 
+* YOJAN MARLON LEZMA COTRINA - Mxrlon-ciber
 * 
 * 
 ---
