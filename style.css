@@ -58,6 +58,26 @@ h2 {
     border-radius: 8px;
 }
 
+form {
+    display: flex;
+    flex-direction: column;
+    max-width: 500px;
+}
+
+label {
+    margin-top: 10px;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+input,
+select {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 15px;
+}
+
 button {
     background-color: #2e86c1;
     color: white;
@@ -65,10 +85,28 @@ button {
     padding: 10px 15px;
     border-radius: 5px;
     cursor: pointer;
+    margin-top: 15px;
 }
 
 button:hover {
     background-color: #21618c;
+}
+
+#mensajeRegistro {
+    font-weight: bold;
+    color: green;
+}
+
+.cita {
+    border: 1px solid #ddd;
+    padding: 15px;
+    margin-top: 10px;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+.cita button {
+    background-color: #c0392b;
 }
 
 footer {
