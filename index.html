@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Farmacia Salud</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <h1>Farmacia Salud</h1>
+        <p>Tu salud es nuestra prioridad</p>
+    </header>
+
+    <nav>
+        <a href="#inicio">Inicio</a>
+        <a href="#productos">Productos</a>
+        <a href="#contacto">Contacto</a>
+    </nav>
+
+    <main id="inicio">
+
+        <section>
+            <h2>Bienvenido</h2>
+            <p>Encuentra productos para el cuidado de tu salud.</p>
+            <button onclick="mostrarMensaje()">Más información</button>
+        </section>
+
+        <section id="productos">
+            <h2>Productos</h2>
+
+            <div class="productos">
+
+                <div class="producto">
+                    <h3>Paracetamol</h3>
+                    <p>Alivio del dolor y fiebre.</p>
+                    <p><strong>S/ 5.00</strong></p>
+                    <button onclick="comprar('Paracetamol')">Comprar</button>
+                </div>
+
+                <div class="producto">
+                    <h3>Vitamina C</h3>
+                    <p>Suplemento vitamínico.</p>
+                    <p><strong>S/ 12.00</strong></p>
+                    <button onclick="comprar('Vitamina C')">Comprar</button>
+                </div>
+
+                <div class="producto">
+                    <h3>Alcohol</h3>
+                    <p>Producto para limpieza y desinfección.</p>
+                    <p><strong>S/ 8.00</strong></p>
+                    <button onclick="comprar('Alcohol')">Comprar</button>
+                </div>
+
+            </div>
+        </section>
+
+        <section id="contacto">
+            <h2>Contacto</h2>
+            <p>📞 Teléfono: 999 999 999</p>
+            <p>📧 Email: farmacia@gmail.com</p>
+            <p>📍 Dirección: Lima, Perú</p>
+        </section>
+
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Farmacia Salud</p>
+    </footer>
+
+    <script src="script.js"></script>
+
+</body>
+</html>
