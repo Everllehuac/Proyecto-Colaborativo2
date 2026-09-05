@@ -1,217 +1,141 @@
-:root {
-    --primary: #0284c7;
-    --primary-dark: #0369a1;
-    --accent: #059669;
-    --accent-hover: #047857;
-    --bg-main: #f8fafc;
-    --surface: #ffffff;
-    --text-primary: #0f172a;
-    --text-secondary: #64748b;
-    --border: #e2e8f0;
-    --radius: 12px;
-    --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.07), 0 2px 4px -2px rgb(0 0 0 / 0.05);
-    --shadow-md: 0 10px 15px -3px rgb(0 0 0 / 0.08), 0 4px 6px -4px rgb(0 0 0 / 0.04);
+// Estructuras de datos en memoria
+const pacientes = [];
+const citas = [];
+
+// Elementos del DOM
+const formPaciente = document.getElementById('formPaciente');
+const mensajeRegistro = document.getElementById('mensajeRegistro');
+const selectPaciente = document.getElementById('paciente');
+
+const formCita = document.getElementById('formCita');
+const listaCitas = document.getElementById('listaCitas');
+
+// 1. Mensaje de bienvenida / más información
+function mostrarMensaje() {
+    alert('¡Bienvenido a Farmacia Salud! Ofrecemos medicamentos certificados y atención médica personalizada.');
 }
 
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+// 2. Acción de compra
+function comprar(nombreProducto) {
+    alert(`Has agregado "${nombreProducto}" al carrito.`);
 }
 
-body {
-    background-color: var(--bg-main);
-    color: var(--text-primary);
-    line-height: 1.6;
+// 3. Registro de Paciente
+formPaciente.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    const nombre = document.getElementById('nombre').value.trim();
+    const dni = document.getElementById('dni').value.trim();
+    const telefono = document.getElementById('telefono').value.trim();
+    const correo = document.getElementById('correo').value.trim();
+
+    // Validar que no se duplique por DNI
+    const yaExiste = pacientes.some(p => p.dni === dni);
+    if (yaExiste) {
+        mensajeRegistro.style.color = '#dc2626';
+        mensajeRegistro.textContent = 'Este DNI ya se encuentra registrado.';
+        return;
+    }
+
+    const nuevoPaciente = { nombre, dni, telefono, correo };
+    pacientes.push(nuevoPaciente);
+
+    // Actualizar el <select> en el formulario de citas
+    actualizarSelectPacientes();
+
+    // Feedback visual
+    mensajeRegistro.style.color = '#059669';
+    mensajeRegistro.textContent = `Paciente ${nombre} registrado con éxito.`;
+
+    formPaciente.reset();
+
+    setTimeout(() => {
+        mensajeRegistro.textContent = '';
+    }, 4000);
+});
+
+// Función para poblar el <select> de pacientes
+function actualizarSelectPacientes() {
+    selectPaciente.innerHTML = '<option value="">Seleccione un paciente</option>';
+    
+    pacientes.forEach(paciente => {
+        const option = document.createElement('option');
+        option.value = paciente.nombre;
+        option.textContent = `${paciente.nombre} (DNI: ${paciente.dni})`;
+        selectPaciente.appendChild(option);
+    });
 }
 
-/* Encabezado */
-header {
-    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-    color: white;
-    text-align: center;
-    padding: 3rem 1rem;
+// 4. Registro de Cita
+formCita.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    const pacienteNombre = selectPaciente.value;
+    const fecha = document.getElementById('fecha').value;
+    const hora = document.getElementById('hora').value;
+    const motivo = document.getElementById('motivo').value.trim();
+
+    if (!pacienteNombre) {
+        alert('Por favor, selecciona un paciente de la lista.');
+        return;
+    }
+
+    const nuevaCita = {
+        id: Date.now(),
+        paciente: pacienteNombre,
+        fecha,
+        hora,
+        motivo
+    };
+
+    citas.push(nuevaCita);
+    renderizarCitas();
+    formCita.reset();
+});
+
+// Función para renderizar las citas agendadas
+function renderizarCitas() {
+    listaCitas.innerHTML = '';
+
+    if (citas.length === 0) {
+        listaCitas.innerHTML = '<p style="color: #64748b; margin-top: 1rem;">No hay citas registradas actualmente.</p>';
+        return;
+    }
+
+    citas.forEach(cita => {
+        const tarjeta = document.createElement('div');
+        tarjeta.style.background = '#f8fafc';
+        tarjeta.style.border = '1px solid #e2e8f0';
+        tarjeta.style.borderRadius = '8px';
+        tarjeta.style.padding = '1rem';
+        tarjeta.style.marginTop = '1rem';
+        tarjeta.style.display = 'flex';
+        tarjeta.style.justifyContent = 'space-between';
+        tarjeta.style.alignItems = 'center';
+
+        tarjeta.innerHTML = `
+            <div>
+                <strong style="color: #0f172a; font-size: 1.05rem;">${cita.paciente}</strong>
+                <p style="color: #64748b; margin: 0.25rem 0;">📅 ${cita.fecha} | ⏰ ${cita.hora}</p>
+                <p style="color: #334155; font-size: 0.9rem;"><strong>Motivo:</strong> ${cita.motivo}</p>
+            </div>
+            <button onclick="eliminarCita(${cita.id})" style="background-color: #ef4444; padding: 0.5rem 0.9rem; font-size: 0.85rem;">
+                Cancelar
+            </button>
+        `;
+
+        listaCitas.appendChild(tarjeta);
+    });
 }
 
-header h1 {
-    font-size: 2.25rem;
-    font-weight: 700;
-    letter-spacing: -0.5px;
+// 5. Cancelar / eliminar cita
+function eliminarCita(id) {
+    const indice = citas.findIndex(c => c.id === id);
+    if (indice !== -1) {
+        citas.splice(indice, 1);
+        renderizarCitas();
+    }
 }
 
-header p {
-    font-size: 1.1rem;
-    opacity: 0.9;
-    margin-top: 0.5rem;
-}
-
-/* Navegación pegajosa */
-nav {
-    display: flex;
-    justify-content: center;
-    gap: 1.5rem;
-    background: var(--surface);
-    padding: 1rem;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    box-shadow: var(--shadow);
-}
-
-nav a {
-    text-decoration: none;
-    color: var(--text-secondary);
-    font-weight: 600;
-    font-size: 0.95rem;
-    transition: color 0.2s ease;
-}
-
-nav a:hover {
-    color: var(--primary);
-}
-
-/* Estructura Principal */
-main {
-    max-width: 1000px;
-    margin: 2.5rem auto;
-    padding: 0 1.25rem;
-    display: flex;
-    flex-direction: column;
-    gap: 2.5rem;
-}
-
-section {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 2.5rem;
-    box-shadow: var(--shadow);
-}
-
-section h2 {
-    font-size: 1.5rem;
-    color: var(--text-primary);
-    margin-bottom: 1.5rem;
-    border-bottom: 2px solid var(--bg-main);
-    padding-bottom: 0.5rem;
-}
-
-/* Grid de Productos */
-.productos {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 1.5rem;
-}
-
-.producto {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 1.5rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    box-shadow: var(--shadow);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.producto:hover {
-    transform: translateY(-4px);
-    box-shadow: var(--shadow-md);
-}
-
-.producto h3 {
-    color: var(--primary-dark);
-    margin-bottom: 0.5rem;
-}
-
-.producto p {
-    color: var(--text-secondary);
-    font-size: 0.95rem;
-    margin-bottom: 1rem;
-}
-
-.producto strong {
-    font-size: 1.25rem;
-    color: var(--text-primary);
-    display: block;
-    margin-bottom: 1rem;
-}
-
-/* Formularios */
-form {
-    display: flex;
-    flex-direction: column;
-    gap: 1.25rem;
-    max-width: 450px;
-}
-
-label {
-    font-size: 0.875rem;
-    font-weight: 600;
-    color: var(--text-primary);
-    margin-bottom: -0.75rem;
-}
-
-input, select {
-    width: 100%;
-    padding: 0.75rem 1rem;
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    font-size: 0.95rem;
-    background-color: var(--bg-main);
-    color: var(--text-primary);
-    outline: none;
-    transition: border-color 0.2s ease, box-shadow 0.2s ease;
-}
-
-input:focus, select:focus {
-    border-color: var(--primary);
-    background-color: var(--surface);
-    box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.15);
-}
-
-/* Botones */
-button {
-    background-color: var(--primary);
-    color: white;
-    font-size: 0.95rem;
-    font-weight: 600;
-    border: none;
-    border-radius: 8px;
-    padding: 0.8rem 1.5rem;
-    cursor: pointer;
-    transition: background-color 0.2s ease, transform 0.1s ease;
-}
-
-button:hover {
-    background-color: var(--primary-dark);
-}
-
-button:active {
-    transform: scale(0.98);
-}
-
-.producto button {
-    background-color: var(--accent);
-}
-
-.producto button:hover {
-    background-color: var(--accent-hover);
-}
-
-/* Contacto y Pie de Página */
-#contacto p {
-    margin-bottom: 0.75rem;
-    font-size: 1rem;
-    color: var(--text-secondary);
-}
-
-footer {
-    text-align: center;
-    padding: 2rem;
-    color: var(--text-secondary);
-    font-size: 0.875rem;
-    border-top: 1px solid var(--border);
-}
+// Inicializar lista vacía
+renderizarCitas();
