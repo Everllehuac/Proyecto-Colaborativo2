@@ -3,74 +3,78 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Farmacia Salud - Encuentra medicamentos y productos para el cuidado de tu salud en Lima, Perú.">
     <title>Farmacia Salud</title>
-
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <header>
+    <header role="banner">
         <h1>Farmacia Salud</h1>
         <p>Tu salud es nuestra prioridad</p>
     </header>
 
-    <nav>
-        <a href="#inicio">Inicio</a>
-        <a href="#productos">Productos</a>
-        <a href="#contacto">Contacto</a>
+    <nav aria-label="Navegación principal">
+        <ul>
+            <li><a href="#inicio">Inicio</a></li>
+            <li><a href="#productos">Productos</a></li>
+            <li><a href="#contacto">Contacto</a></li>
+        </ul>
     </nav>
 
     <main id="inicio">
 
-        <section>
-            <h2>Bienvenido</h2>
+        <section id="bienvenida" aria-labelledby="titulo-bienvenida">
+            <h2 id="titulo-bienvenida">Bienvenido</h2>
             <p>Encuentra productos para el cuidado de tu salud.</p>
-            <button onclick="mostrarMensaje()">Más información</button>
+            <button type="button" id="btn-mas-info">Más información</button>
         </section>
 
-        <section id="productos">
-            <h2>Productos</h2>
+        <section id="productos" aria-labelledby="titulo-productos">
+            <h2 id="titulo-productos">Productos</h2>
 
-            <div class="productos">
+            <div class="lista-productos">
 
-                <div class="producto">
+                <article class="producto">
                     <h3>Paracetamol</h3>
                     <p>Alivio del dolor y fiebre.</p>
-                    <p><strong>S/ 5.00</strong></p>
-                    <button onclick="comprar('Paracetamol')">Comprar</button>
-                </div>
+                    <p><strong>Precio: <data value="5.00">S/ 5.00</data></strong></p>
+                    <button type="button" class="btn-comprar" data-producto="Paracetamol" data-precio="5.00">Comprar</button>
+                </article>
 
-                <div class="producto">
+                <article class="producto">
                     <h3>Vitamina C</h3>
                     <p>Suplemento vitamínico.</p>
-                    <p><strong>S/ 12.00</strong></p>
-                    <button onclick="comprar('Vitamina C')">Comprar</button>
-                </div>
+                    <p><strong>Precio: <data value="12.00">S/ 12.00</data></strong></p>
+                    <button type="button" class="btn-comprar" data-producto="Vitamina C" data-precio="12.00">Comprar</button>
+                </article>
 
-                <div class="producto">
+                <article class="producto">
                     <h3>Alcohol</h3>
                     <p>Producto para limpieza y desinfección.</p>
-                    <p><strong>S/ 8.00</strong></p>
-                    <button onclick="comprar('Alcohol')">Comprar</button>
-                </div>
+                    <p><strong>Precio: <data value="8.00">S/ 8.00</data></strong></p>
+                    <button type="button" class="btn-comprar" data-producto="Alcohol" data-precio="8.00">Comprar</button>
+                </article>
 
             </div>
         </section>
 
-        <section id="contacto">
-            <h2>Contacto</h2>
-            <p>📞 Teléfono: 999 999 999</p>
-            <p>📧 Email: farmacia@gmail.com</p>
-            <p>📍 Dirección: Lima, Perú</p>
+        <section id="contacto" aria-labelledby="titulo-contacto">
+            <h2 id="titulo-contacto">Contacto</h2>
+            <address>
+                <p>📞 Teléfono: <a href="tel:+51999999999">999 999 999</a></p>
+                <p>📧 Email: <a href="mailto:farmacia@gmail.com">farmacia@gmail.com</a></p>
+                <p>📍 Dirección: Lima, Perú</p>
+            </address>
         </section>
 
     </main>
 
     <footer>
-        <p>&copy; 2026 Farmacia Salud</p>
+        <p>&copy; 2026 Farmacia Salud. Todos los derechos reservados.</p>
     </footer>
 
-    <script src="script.js"></script>
+    <script src="script.js" defer></script>
 
 </body>
 </html>
