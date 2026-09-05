@@ -1,195 +1,144 @@
-// Obtener pacientes y citas guardados
-let pacientes = JSON.parse(localStorage.getItem("pacientes")) || [];
-let citas = JSON.parse(localStorage.getItem("citas")) || [];
+// Estructuras de datos en memoria
+const pacientes = [];
+const citas = [];
 
+// Elementos del DOM
+const formPaciente = document.getElementById('formPaciente');
+const mensajeRegistro = document.getElementById('mensajeRegistro');
+const selectPaciente = document.getElementById('paciente');
 
-// MENSAJE INICIAL
+const formCita = document.getElementById('formCita');
+const listaCitas = document.getElementById('listaCitas');
+
+// 1. Mensaje de bienvenida / más información
 function mostrarMensaje() {
-    alert("Bienvenido a Farmacia Salud.");
+    alert('¡Bienvenido a Farmacia Salud! Ofrecemos medicamentos certificados y atención médica personalizada.');
 }
 
-
-// PRODUCTOS
-function comprar(producto) {
-    alert("Has seleccionado: " + producto);
+// 2. Acción de compra
+function comprar(nombreProducto) {
+    alert(`Has agregado "${nombreProducto}" al carrito.`);
 }
 
+// 3. Registro de Paciente
+formPaciente.addEventListener('submit', (e) => {
+    e.preventDefault();
 
-// REGISTRAR PACIENTE
-document.getElementById("formPaciente").addEventListener("submit", function(event) {
+    const nombre = document.getElementById('nombre').value.trim();
+    const dni = document.getElementById('dni').value.trim();
+    const telefono = document.getElementById('telefono').value.trim();
+    const correo = document.getElementById('correo').value.trim();
 
-    event.preventDefault();
+    // Validar que no se duplique por DNI
+    const yaExiste = pacientes.some(p => p.dni === dni);
+    if (yaExiste) {
+        mensajeRegistro.style.color = '#dc2626';
+        mensajeRegistro.textContent = 'Este DNI ya se encuentra registrado.';
+        return;
+    }
 
-    const nombre = document.getElementById("nombre").value;
-    const dni = document.getElementById("dni").value;
-    const telefono = document.getElementById("telefono").value;
-    const correo = document.getElementById("correo").value;
+    const nuevoPaciente = { nombre, dni, telefono, correo };
+    pacientes.push(nuevoPaciente);
 
-    const paciente = {
-        id: Date.now(),
-        nombre: nombre,
-        dni: dni,
-        telefono: telefono,
-        correo: correo
-    };
+    // Actualizar el <select> en el formulario de citas
+    actualizarSelectPacientes();
 
-    pacientes.push(paciente);
+    // Feedback visual
+    mensajeRegistro.style.color = '#059669';
+    mensajeRegistro.textContent = `Paciente ${nombre} registrado con éxito.`;
 
-    localStorage.setItem(
-        "pacientes",
-        JSON.stringify(pacientes)
-    );
+    formPaciente.reset();
 
-    document.getElementById("mensajeRegistro").textContent =
-        "Paciente registrado correctamente.";
-
-    document.getElementById("formPaciente").reset();
-
-    cargarPacientes();
+    setTimeout(() => {
+        mensajeRegistro.textContent = '';
+    }, 4000);
 });
 
-
-// CARGAR PACIENTES EN EL SELECT
-function cargarPacientes() {
-
-    const select = document.getElementById("paciente");
-
-    select.innerHTML =
-        '<option value="">Seleccione un paciente</option>';
-
-    pacientes.forEach(function(paciente) {
-
-        const option = document.createElement("option");
-
-        option.value = paciente.id;
-        option.textContent =
-            paciente.nombre + " - DNI: " + paciente.dni;
-
-        select.appendChild(option);
+// Función para poblar el <select> de pacientes
+function actualizarSelectPacientes() {
+    selectPaciente.innerHTML = '<option value="">Seleccione un paciente</option>';
+    
+    pacientes.forEach(paciente => {
+        const option = document.createElement('option');
+        option.value = paciente.nombre;
+        option.textContent = `${paciente.nombre} (DNI: ${paciente.dni})`;
+        selectPaciente.appendChild(option);
     });
 }
 
+// 4. Registro de Cita
+formCita.addEventListener('submit', (e) => {
+    e.preventDefault();
 
-// REGISTRAR CITA
-document.getElementById("formCita").addEventListener("submit", function(event) {
+    const pacienteNombre = selectPaciente.value;
+    const fecha = document.getElementById('fecha').value;
+    const hora = document.getElementById('hora').value;
+    const motivo = document.getElementById('motivo').value.trim();
 
-    event.preventDefault();
-
-    const pacienteId =
-        document.getElementById("paciente").value;
-
-    const fecha =
-        document.getElementById("fecha").value;
-
-    const hora =
-        document.getElementById("hora").value;
-
-    const motivo =
-        document.getElementById("motivo").value;
-
-    const paciente = pacientes.find(
-        function(p) {
-            return p.id == pacienteId;
-        }
-    );
-
-    if (!paciente) {
-        alert("Seleccione un paciente.");
+    if (!pacienteNombre) {
+        alert('Por favor, selecciona un paciente de la lista.');
         return;
     }
 
-    const cita = {
-
+    const nuevaCita = {
         id: Date.now(),
-
-        paciente: paciente.nombre,
-
-        dni: paciente.dni,
-
-        fecha: fecha,
-
-        hora: hora,
-
-        motivo: motivo
+        paciente: pacienteNombre,
+        fecha,
+        hora,
+        motivo
     };
 
-    citas.push(cita);
-
-    localStorage.setItem(
-        "citas",
-        JSON.stringify(citas)
-    );
-
-    alert("Cita registrada correctamente.");
-
-    document.getElementById("formCita").reset();
-
-    mostrarCitas();
+    citas.push(nuevaCita);
+    renderizarCitas();
+    formCita.reset();
 });
 
-
-// MOSTRAR CITAS
-function mostrarCitas() {
-
-    const lista =
-        document.getElementById("listaCitas");
-
-    lista.innerHTML = "";
+// Función para renderizar las citas agendadas
+function renderizarCitas() {
+    listaCitas.innerHTML = '';
 
     if (citas.length === 0) {
-
-        lista.innerHTML =
-            "<p>No hay citas registradas.</p>";
-
+        listaCitas.innerHTML = '<p style="color: #64748b; margin-top: 1rem;">No hay citas registradas actualmente.</p>';
         return;
     }
 
-    citas.forEach(function(cita) {
+    citas.forEach(cita => {
+        const tarjeta = document.createElement('div');
+        tarjeta.style.background = '#f8fafc';
+        tarjeta.style.border = '1px solid #e2e8f0';
+        tarjeta.style.borderRadius = '8px';
+        tarjeta.style.padding = '1rem';
+        tarjeta.style.marginTop = '1rem';
+        tarjeta.style.display = 'flex';
+        tarjeta.style.justifyContent = 'space-between';
+        tarjeta.style.alignItems = 'center';
 
-        const div = document.createElement("div");
-
-        div.className = "cita";
-
-        div.innerHTML = `
-            <strong>Paciente:</strong> ${cita.paciente}<br>
-            <strong>DNI:</strong> ${cita.dni}<br>
-            <strong>Fecha:</strong> ${cita.fecha}<br>
-            <strong>Hora:</strong> ${cita.hora}<br>
-            <strong>Motivo:</strong> ${cita.motivo}
-            <br>
-            <button onclick="eliminarCita(${cita.id})">
-                Eliminar Cita
+        tarjeta.innerHTML = `
+            <div>
+                <strong style="color: #0f172a; font-size: 1.05rem;">${cita.paciente}</strong>
+                <p style="color: #64748b; margin: 0.25rem 0;">📅 ${cita.fecha} | ⏰ ${cita.hora}</p>
+                <p style="color: #334155; font-size: 0.9rem;"><strong>Motivo:</strong> ${cita.motivo}</p>
+            </div>
+            <button onclick="eliminarCita(${cita.id})" style="background-color: #ef4444; padding: 0.5rem 0.9rem; font-size: 0.85rem;">
+                Cancelar
             </button>
         `;
 
-        lista.appendChild(div);
+        listaCitas.appendChild(tarjeta);
     });
 }
 
-
-// ELIMINAR CITA
+// 5. Cancelar / eliminar cita
 function eliminarCita(id) {
-
-    const confirmar =
-        confirm("¿Desea eliminar esta cita?");
-
-    if (!confirmar) {
-        return;
+    const indice = citas.findIndex(c => c.id === id);
+    if (indice !== -1) {
+        citas.splice(indice, 1);
+        renderizarCitas();
     }
-
-    citas = citas.filter(function(cita) {
-        return cita.id !== id;
-    });
-
-    localStorage.setItem(
-        "citas",
-        JSON.stringify(citas)
-    );
-
-    mostrarCitas();
 }
 
+// Inicializar lista vacía
+renderizarCitas();
 
-// CARGAR DATOS AL ABRIR LA PÁGINA
-cargarPacientes();
-mostrarCitas();
+   
+
