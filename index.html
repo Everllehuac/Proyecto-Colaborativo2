@@ -1,217 +1,186 @@
-:root {
-    --primary: #0284c7;
-    --primary-dark: #0369a1;
-    --accent: #059669;
-    --accent-hover: #047857;
-    --bg-main: #f8fafc;
-    --surface: #ffffff;
-    --text-primary: #0f172a;
-    --text-secondary: #64748b;
-    --border: #e2e8f0;
-    --radius: 12px;
-    --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.07), 0 2px 4px -2px rgb(0 0 0 / 0.05);
-    --shadow-md: 0 10px 15px -3px rgb(0 0 0 / 0.08), 0 4px 6px -4px rgb(0 0 0 / 0.04);
-}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Farmacia Salud</title>
+    <link rel="stylesheet" href="style.css">
+</head>
 
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-}
+<body>
 
-body {
-    background-color: var(--bg-main);
-    color: var(--text-primary);
-    line-height: 1.6;
-}
+    <header>
+        <h1>Farmacia Salud</h1>
+        <p>Tu salud es nuestra prioridad</p>
+    </header>
 
-/* Encabezado */
-header {
-    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-    color: white;
-    text-align: center;
-    padding: 3rem 1rem;
-}
+    <nav>
+        <a href="#inicio">Inicio</a>
+        <a href="#productos">Productos</a>
+        <a href="#registro">Registrar Paciente</a>
+        <a href="#citas">Citas</a>
+        <a href="#contacto">Contacto</a>
+    </nav>
 
-header h1 {
-    font-size: 2.25rem;
-    font-weight: 700;
-    letter-spacing: -0.5px;
-}
+    <main>
 
-header p {
-    font-size: 1.1rem;
-    opacity: 0.9;
-    margin-top: 0.5rem;
-}
+        <!-- INICIO -->
+        <section id="inicio">
+            <h2>Bienvenido</h2>
+            <p>Encuentra productos para el cuidado de tu salud.</p>
 
-/* Navegación pegajosa */
-nav {
-    display: flex;
-    justify-content: center;
-    gap: 1.5rem;
-    background: var(--surface);
-    padding: 1rem;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    box-shadow: var(--shadow);
-}
+            <button onclick="mostrarMensaje()">
+                Más información
+            </button>
+        </section>
 
-nav a {
-    text-decoration: none;
-    color: var(--text-secondary);
-    font-weight: 600;
-    font-size: 0.95rem;
-    transition: color 0.2s ease;
-}
+        <!-- PRODUCTOS -->
+        <section id="productos">
+            <h2>Productos</h2>
 
-nav a:hover {
-    color: var(--primary);
-}
+            <div class="productos">
 
-/* Estructura Principal */
-main {
-    max-width: 1000px;
-    margin: 2.5rem auto;
-    padding: 0 1.25rem;
-    display: flex;
-    flex-direction: column;
-    gap: 2.5rem;
-}
+                <div class="producto">
+                    <h3>Paracetamol</h3>
+                    <p>Alivio del dolor y fiebre.</p>
+                    <p><strong>S/ 5.00</strong></p>
+                    <button onclick="comprar('Paracetamol')">
+                        Comprar
+                    </button>
+                </div>
 
-section {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 2.5rem;
-    box-shadow: var(--shadow);
-}
+                <div class="producto">
+                    <h3>Vitamina C</h3>
+                    <p>Suplemento vitamínico.</p>
+                    <p><strong>S/ 12.00</strong></p>
+                    <button onclick="comprar('Vitamina C')">
+                        Comprar
+                    </button>
+                </div>
 
-section h2 {
-    font-size: 1.5rem;
-    color: var(--text-primary);
-    margin-bottom: 1.5rem;
-    border-bottom: 2px solid var(--bg-main);
-    padding-bottom: 0.5rem;
-}
+                <div class="producto">
+                    <h3>Alcohol</h3>
+                    <p>Producto para limpieza y desinfección.</p>
+                    <p><strong>S/ 8.00</strong></p>
+                    <button onclick="comprar('Alcohol')">
+                        Comprar
+                    </button>
+                </div>
 
-/* Grid de Productos */
-.productos {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 1.5rem;
-}
+            </div>
+        </section>
 
-.producto {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 1.5rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    box-shadow: var(--shadow);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
+        <!-- REGISTRO DEL PACIENTE -->
+        <section id="registro">
 
-.producto:hover {
-    transform: translateY(-4px);
-    box-shadow: var(--shadow-md);
-}
+            <h2>Registrar Paciente</h2>
 
-.producto h3 {
-    color: var(--primary-dark);
-    margin-bottom: 0.5rem;
-}
+            <form id="formPaciente">
 
-.producto p {
-    color: var(--text-secondary);
-    font-size: 0.95rem;
-    margin-bottom: 1rem;
-}
+                <label>Nombre completo:</label>
+                <input
+                    type="text"
+                    id="nombre"
+                    placeholder="Ingrese el nombre"
+                    required
+                >
 
-.producto strong {
-    font-size: 1.25rem;
-    color: var(--text-primary);
-    display: block;
-    margin-bottom: 1rem;
-}
+                <label>DNI:</label>
+                <input
+                    type="text"
+                    id="dni"
+                    placeholder="Ingrese el DNI"
+                    required
+                >
 
-/* Formularios */
-form {
-    display: flex;
-    flex-direction: column;
-    gap: 1.25rem;
-    max-width: 450px;
-}
+                <label>Teléfono:</label>
+                <input
+                    type="tel"
+                    id="telefono"
+                    placeholder="Ingrese el teléfono"
+                    required
+                >
 
-label {
-    font-size: 0.875rem;
-    font-weight: 600;
-    color: var(--text-primary);
-    margin-bottom: -0.75rem;
-}
+                <label>Correo electrónico:</label>
+                <input
+                    type="email"
+                    id="correo"
+                    placeholder="Ingrese el correo"
+                    required
+                >
 
-input, select {
-    width: 100%;
-    padding: 0.75rem 1rem;
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    font-size: 0.95rem;
-    background-color: var(--bg-main);
-    color: var(--text-primary);
-    outline: none;
-    transition: border-color 0.2s ease, box-shadow 0.2s ease;
-}
+                <button type="submit">
+                    Registrar Paciente
+                </button>
 
-input:focus, select:focus {
-    border-color: var(--primary);
-    background-color: var(--surface);
-    box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.15);
-}
+            </form>
 
-/* Botones */
-button {
-    background-color: var(--primary);
-    color: white;
-    font-size: 0.95rem;
-    font-weight: 600;
-    border: none;
-    border-radius: 8px;
-    padding: 0.8rem 1.5rem;
-    cursor: pointer;
-    transition: background-color 0.2s ease, transform 0.1s ease;
-}
+            <p id="mensajeRegistro"></p>
 
-button:hover {
-    background-color: var(--primary-dark);
-}
+        </section>
 
-button:active {
-    transform: scale(0.98);
-}
+        <!-- CITA -->
+        <section id="citas">
 
-.producto button {
-    background-color: var(--accent);
-}
+            <h2>Registrar Cita</h2>
 
-.producto button:hover {
-    background-color: var(--accent-hover);
-}
+            <form id="formCita">
 
-/* Contacto y Pie de Página */
-#contacto p {
-    margin-bottom: 0.75rem;
-    font-size: 1rem;
-    color: var(--text-secondary);
-}
+                <label>Paciente:</label>
+                <select id="paciente" required>
+                    <option value="">Seleccione un paciente</option>
+                </select>
 
-footer {
-    text-align: center;
-    padding: 2rem;
-    color: var(--text-secondary);
-    font-size: 0.875rem;
-    border-top: 1px solid var(--border);
-}
+                <label>Fecha:</label>
+                <input
+                    type="date"
+                    id="fecha"
+                    required
+                >
+
+                <label>Hora:</label>
+                <input
+                    type="time"
+                    id="hora"
+                    required
+                >
+
+                <label>Motivo de la cita:</label>
+                <input
+                    type="text"
+                    id="motivo"
+                    placeholder="Ejemplo: Consulta"
+                    required
+                >
+
+                <button type="submit">
+                    Registrar Cita
+                </button>
+
+            </form>
+
+            <h2>Lista de Citas</h2>
+
+            <div id="listaCitas"></div>
+
+        </section>
+
+        <!-- CONTACTO -->
+        <section id="contacto">
+            <h2>Contacto</h2>
+
+            <p>📞 Teléfono: 999 999 999</p>
+            <p>📧 Email: farmacia@gmail.com</p>
+            <p>📍 Dirección: Lima, Perú</p>
+        </section>
+
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Farmacia Salud</p>
+    </footer>
+
+    <script src="script.js"></script>
+
+</body>
+</html>
